@@ -1,0 +1,320 @@
+import java.util.Random;
+import javax.swing.JOptionPane;
+//---------------------------------------------------------------------
+
+//Implement class Dice
+public class Dice {
+	/* this is superclass Dice. So it has constructors, methods and properties.
+	 In this case, it is reused by another classes, so it is called is OOP  */
+
+	public int numInt;
+	String NameStr="";
+	String numStr="";	
+	int total=0;
+	 
+	 public Dice()
+		{}
+	 public Dice(int userNum)
+		{
+		 numInt=userNum;
+		}
+	
+	 public int getNumber(){
+		   
+	      return numInt;		  
+	  }
+	 
+	  public String ValueChanged(){
+		  
+		  String DiceValue="";
+		  
+		  	if (numInt == 1)
+		  		DiceValue = "1";
+			else if (numInt == 2)
+				DiceValue = "2";
+			else if (numInt == 3)
+				DiceValue = "3";
+			else if (numInt == 4)
+				DiceValue = "4";
+			else if (numInt == 5)
+				DiceValue = "5";
+			else if (numInt == 6)
+				DiceValue = "6";
+			else
+				DiceValue = "NOTHING";
+		  
+		  return DiceValue;
+	  }
+	  
+//---------------------------------------------------------
+	  public int Throw(){
+		  	  
+		  Random generator = new Random();
+		  numInt = generator.nextInt(6)+1;
+	      return numInt;
+	  }
+//----------------------------------------------------------
+	  public void displayValueDice()
+		   {			
+		  String Name1="The value of dice is high";
+		  String Name2="The value of dice is low";
+			if ((numInt==4) || (numInt==5) || (numInt==6))
+				JOptionPane.showMessageDialog(null, Name1);		
+			else 
+				JOptionPane.showMessageDialog(null, Name2);
+		   }	
+//------------------------------------------------------------	  
+	 
+	public void showInput()
+{
+	 numStr=JOptionPane.showInputDialog("Enter your play here: ");		   
+}
+//------------------------------------------------------------
+	 public void showMessage(String str)
+	   {
+		   JOptionPane.showMessageDialog(null, str);		  
+	   }
+//------------------------------------------------------------
+
+//Print out who won
+		public void displayWhoWon(String PlayOfUser, String PlayOfComputer, Dice myRandNum)
+		//public void displayWhoWon(String PlayOfUser, String PlayOfComputer)
+		{
+			int RandomNumInt;		
+			int ask, counter=0;
+
+		while(counter>=0){
+				
+			
+			    myRandNum.showInput();	
+				String Mess2= String.format("%s: ",myRandNum.NameStr);			
+				PlayOfUser=myRandNum.NameStr;
+				
+				String Name5="CONGRATULATION! You're right";
+				String Name6="You're wrong";
+			
+			
+		            if (PlayOfComputer.equals(PlayOfUser))	                    
+		            	myRandNum.showMessage(Name5);
+		            else 
+		            	myRandNum.showMessage(Name6);       
+		                     		            
+		            counter++;
+		            myRandNum.showMessage("The number of throws since the object was instantiated: "+ counter);
+		            
+		            //Ask after each round
+		            String Name3 = JOptionPane.showInputDialog("Do you want to play more? Typing any key to continue. Typing the key 'N' to stop: ");
+		            Name3 = Name3.toUpperCase();
+		            String Mess3= String.format("%s ",Name3);	           
+		            
+		            if (Name3.equals("N"))
+		                    break;
+		            else
+		            {	                         	
+		            	
+		            	myRandNum.Throw();
+		            	PlayOfComputer=myRandNum.ValueChanged();
+		            	myRandNum.displayValueDice();		                    
+		            }
+		        }}
+	}
+
+//=====================================================TwoDice============================================================================
+import java.util.Random;
+import javax.swing.JOptionPane;	
+//---------------------------------------------------------------------
+
+	public class TwoDice extends Dice{
+		/* this subclass is inherited form superclass Dice. So it can use constructors, methods or paramaters of class Dice.
+		 In this case it has method displayValueDice(), method Throw() and displayWhoWon() overriding on methods of superclass. So it is called is OOP */
+		
+		public String NameStr="";
+		String PlayOfUser; 
+		String PlayOfComputer = "";
+		int randNum;
+		
+		public TwoDice(int user)
+		 {
+				super(user); //explicit call to constructor of superclass 		
+		 }
+		
+		@Override
+		public void displayValueDice()
+		   {			
+		  String Name1="The value of dice is high";
+		  String Name2="The value of dice is low";
+			if ((randNum==7) || (randNum==8) || (randNum==9)||(randNum==10) || (randNum==11) || (randNum==12))
+				JOptionPane.showMessageDialog(null, Name1);		
+			else 
+				JOptionPane.showMessageDialog(null, Name2);
+		   }	
+		
+		@Override
+		public int Throw(){
+			  
+			 int sum;
+			 sum=(super.Throw() + super.Throw());
+			 randNum = sum;
+			 return randNum;
+		  }
+		
+//---------------------------Print out who won-----------------------------
+				public void displayWhoWon(String PlayOfUser, String PlayOfComputer, TwoDice myRandNum)
+				//public void displayWhoWon(String PlayOfUser, String PlayOfComputer)
+				{
+					int RandomNumInt;		
+					int ask, counter=0;
+
+				while(counter>=0){
+						
+					
+					    myRandNum.showInput();	
+						String Mess2= String.format("%s: ",myRandNum.NameStr);			
+						PlayOfUser=myRandNum.NameStr;						
+
+						String Name5="CONGRATULATION! You're right";
+						String Name6="You're wrong";
+					
+					
+				            if (PlayOfComputer.equals(PlayOfUser))	                    
+				            	myRandNum.showMessage(Name5);
+				            else 
+				            	myRandNum.showMessage(Name6);       
+				                     		            
+				            counter++;
+				            myRandNum.showMessage("The number of throws since the object was instantiated: "+ counter);
+
+				            //Ask after each round
+				            String Name3 = JOptionPane.showInputDialog("Do you want to play more? Typing any key to continue. Typing the key 'N' to stop: ");
+				            Name3 = Name3.toUpperCase();
+				            String Mess3= String.format("%s ",Name3);	           
+				            
+				            if (Name3.equals("N"))
+				                    break;
+				            else
+				            {	                         	
+				            	
+				            	myRandNum.Throw();
+				            	PlayOfComputer=myRandNum.ValueChanged();
+				            	myRandNum.displayValueDice();		                    
+				            }
+				        }}
+}
+//=====================================================ThreeDice============================================================================
+java.util.Random;
+import javax.swing.JOptionPane;	
+//---------------------------------------------------------------------
+
+	public class ThreeDice extends Dice{
+		/* This subclass also is inherited form superclass Dice. So it can use constructors, methods or paramaters of class Dice.
+		 In this case, it has method displayValueDice(), method Throw() and displayWhoWon() overriding on methods of superclass. So it is called is OOP  */
+		
+		public String NameStr="";
+		String PlayOfUser; 
+		String PlayOfComputer = "";
+		int randNum;
+		
+		public ThreeDice(int user)
+		 {
+				super(user); //explicit call to constructor of superclass 		
+		 }
+		
+		@Override
+		public void displayValueDice()
+		   {			
+		  String Name1="The value of dice is high";
+		  String Name2="The value of dice is low";
+			if ((randNum==13) || (randNum==14) || (randNum==15)||(randNum==16) || (randNum==17) || (randNum==18))
+				JOptionPane.showMessageDialog(null, Name1);		
+			else 
+				JOptionPane.showMessageDialog(null, Name2);
+		   }	
+		
+		@Override
+		public int Throw(){
+			  
+			 int sum;
+			 sum=(super.Throw() + super.Throw()+ super.Throw());
+			 randNum = sum;
+			 return randNum;
+		  }
+//-------------------------------Print out who won---------------------------------------------------
+				public void displayWhoWon(String PlayOfUser, String PlayOfComputer, ThreeDice myRandNum)
+				//public void displayWhoWon(String PlayOfUser, String PlayOfComputer)
+				{
+					int RandomNumInt;		
+					int ask, counter=0;
+
+				while(counter>=0){						
+					
+					    myRandNum.showInput();	
+						String Mess2= String.format("%s: ",myRandNum.NameStr);			
+						PlayOfUser=myRandNum.NameStr;						
+
+						String Name5="CONGRATULATION! You're right";
+						String Name6="You're wrong";
+					
+					
+				            if (PlayOfComputer.equals(PlayOfUser))	                    
+				            	myRandNum.showMessage(Name5);
+				            else 
+				            	myRandNum.showMessage(Name6);       
+				                     		            
+				            counter++;
+				            myRandNum.showMessage("The number of throws since the object was instantiated: "+ counter);
+
+				            //Ask after each round
+				            String Name3 = JOptionPane.showInputDialog("Do you want to play more? Typing any key to continue. Typing the key 'N' to stop: ");
+				            Name3 = Name3.toUpperCase();
+				            String Mess3= String.format("%s ",Name3);	           
+				            
+				            if (Name3.equals("N"))
+				                    break;
+				            else
+				            {	                         	
+				            	
+				            	myRandNum.Throw();
+				            	PlayOfComputer=myRandNum.ValueChanged();
+				            	myRandNum.displayValueDice();		                    
+				            }
+				        }}
+}
+//=====================================================TestDiceMain============================================================================
+public static void main(String[] args) {
+		int NumInt;
+		String PlayOfUser="";
+		String PlayOfComputer="";
+		
+		//call constructor of superclass
+		Dice myDice=new Dice(5);
+		NumInt=myDice.getNumber();
+		myDice.displayValueDice();
+		
+		//call methods of superclass 
+		myDice.Throw();
+		myDice.displayValueDice();	
+		PlayOfComputer=myDice.ValueChanged();		
+		myDice.displayWhoWon(PlayOfUser, PlayOfComputer, myDice);
+		
+		
+		//call methods of subclass - TwoDice
+		TwoDice myDice2=new TwoDice(6);
+		NumInt=myDice2.getNumber();
+		myDice2.displayValueDice();
+		//print the value of the throw 
+		myDice2.Throw();		
+		myDice2.displayValueDice(); 
+		//Print out who won
+		myDice2.displayWhoWon(PlayOfUser, PlayOfComputer, myDice2);
+		
+		
+		//call methods of subclass - ThreeDice
+		ThreeDice myDice3=new ThreeDice(16);
+		NumInt=myDice3.getNumber();
+		myDice3.displayValueDice();
+		//print the value of the throw 
+		myDice3.Throw();			
+		myDice3.displayValueDice();
+		//Print out who won
+		myDice3.displayWhoWon(PlayOfUser, PlayOfComputer, myDice3);
+}}
